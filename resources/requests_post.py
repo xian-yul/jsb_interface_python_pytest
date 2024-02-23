@@ -5,7 +5,7 @@
 import json
 
 import requests
-import util
+from Utils import util
 
 # 值需放入sign进行md5加密 定义变量存储时间 保证时间一致
 time = util.timestamp()

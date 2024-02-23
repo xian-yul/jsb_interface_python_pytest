@@ -2,7 +2,6 @@
 # @Author       : ljx
 # @File         : util.py
 # @Software     : PyCharm
-import datetime
 import hashlib
 import random
 import string
@@ -10,8 +9,9 @@ import time
 
 import openpyxl
 
-import RSA
-from AES import PrpCrypt
+from Utils import RSA
+from Utils.AES import PrpCrypt
+from Utils.RSA import rsa_encrypt
 
 key = '44x5b80r5ikacytg'
 iv = 'gzsek651g5g68bta'
@@ -48,7 +48,7 @@ def generate_var(body):
 # 获取通过RSA加密后的接口参数sk
 def generate_sk():
     rsa_data = key + ":" + str(iv)
-    return RSA.rsa_encrypt(rsa_data)
+    return rsa_encrypt(rsa_data)
 
 
 # 根据指定file及sheet读取excel内容
@@ -60,6 +60,8 @@ def read_data(filename, sheetname):
     for i in range(2, max_raw + 1):
         dict1 = dict(
             case_id=sheet.cell(row=i, column=1).value,
+            case_interface=sheet.cell(row=i, column=2).value,
+            case_title=sheet.cell(row=i, column=3).value,
             method=sheet.cell(row=i, column=4).value,
             url=sheet.cell(row=i, column=5).value,
             data=sheet.cell(row=i, column=6).value,
