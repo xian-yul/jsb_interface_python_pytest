@@ -4,7 +4,7 @@ import os
 
 from selenium.webdriver.common.by import By
 
-from Utils.times import dt_strftime
+from common.times import dt_strftime
 
 
 class ConfigManager(object):
@@ -12,7 +12,7 @@ class ConfigManager(object):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # 页面元素目录
-    ELEMENT_PATH = os.path.join(BASE_DIR, 'page_element')
+    ELEMENT_PATH = os.path.join(BASE_DIR, 'yaml')
 
     # 报告文件
     REPORT_FILE = os.path.join(BASE_DIR, 'reports.html')

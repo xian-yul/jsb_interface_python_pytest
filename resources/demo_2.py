@@ -1,13 +1,13 @@
 import requests
 
-from Utils import util
+from common import util
 
-url = "http://192.168.101.24:8090/api/couponCenter/coupon"
-
-params = {'sourceType': 1, 'couponType': 1, 'pageNum': '1', 'pageSize': '10', 'timestamp': util.timestamp()}
-sign_data = 'couponType=1&pageNum=1&pageSize=9&sourceType=1&pageSize=10&timestamp=' + str(util.timestamp())
+# url = "http://192.168.101.24:8090/api/couponCenter/coupon"
+url = "http://192.168.101.24:8050/api/auditBasisIndemnity"
+params = {'pageNum': 1, 'pageSize': 10, 'timestamp': util.timestamp()}
+sign_data = 'pageNum=1&pageSize=10timestamp=' + str(util.timestamp())
 print(sign_data)
-sign =util.MD5(sign_data)
+sign = util.MD5(sign_data)
 # header信息
 header = {
     "Content-Type": "application/json",

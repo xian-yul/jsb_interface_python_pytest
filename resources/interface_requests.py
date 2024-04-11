@@ -3,10 +3,14 @@
 # @File         : interface_requests.py
 # @Software     : PyCharm
 import json
-
 import requests
-from Utils import util
 
+from common import util
+from common.readelement import Element
+
+getToken = Element('Token')
+
+# 引入测试用例 excel地址
 cases = util.read_data('../Testcase/test_case_api.xlsx', 'interface')
 for case in cases:
     time = util.timestamp()
@@ -14,21 +18,21 @@ for case in cases:
     url = case.get('url')
     url = url + '?timestamp=' + str(time)
     method = case.get('method')
+    case_port = case.get('case_port')
     case_interface = case.get('case_interface')
     case_title = case.get('case_title')
     data = eval(case.get('data'))
+    header = eval(case.get('header'))
     expect = eval(case.get('expect'))
     expect_msg = expect.get('message')
     if method == 'post':
         body_var = str(data).replace("'", '"')
         var = util.generate_var(body_var)
         sk = util.generate_sk()
-        sign_data = "sk=" + str(sk) + "&timestamp=" + str(time) + "&var=" + str(var)
-        sign = util.MD5(sign_data)
-        header = {
-            "Sign": sign,
-            "Content-Type": "application/json"
-        }
+        sign_data = "sk={}&timestamp={}&var={}".format(str(sk), str(time), str(var))
+        if 'sign' in header and header['sign'] is None:
+            sign = util.MD5(sign_data)
+            header['sign'] = sign
         data.update({'sk': str(sk)})
         data.update({'var': str(var)})
         # 将数据转换成JSON格式字符串
@@ -38,20 +42,23 @@ for case in cases:
     else:
         str_data = util.dict_key_value(data, '=')
         sign_data = str_data + 'timestamp=' + str(time)
-        sign = util.MD5(sign_data)
-        # header信息
-        header = {
-            "Sign": sign,
-            "Content-Type": "application/json"
-        }
+        if 'sign' in header and header['sign'] is None:
+            sign = util.MD5(sign_data)
+            header['sign'] = sign
         r = requests.get(url=url, headers=header, params=data)
-    print("请求url ： " + r.url)
+
     # 以text格式打印出参
-    print("请求结果 : " + r.text)
     response = r.json()
     real_msg = response.get('message')
-    print('预期结果的msg:{}'.format(expect_msg))
-    print('实际结果的msg:{}'.format(real_msg))
+    print(
+        "用例ID:{}\n请求方式:{}\n请求标题:{}\n请求端口:{}\n请求url:{}\n请求结果:{}\n预期结果:{}\n实际结果:{} ".format(
+            case_id, method,
+            case_title,
+            case_port,
+            r.url,
+            r.text,
+            expect_msg,
+            real_msg))
     if real_msg == expect_msg:
         print('第{}条用例测试通过'.format(case_id))
         final_re = "passed"
@@ -59,4 +66,4 @@ for case in cases:
         print('第{}条用例测试不通过'.format(case_id))
         final_re = "failed"
     print('-------------------------------------')
-    util.write_result("../Testcase/test_case_api.xlsx", "interface", case_id + 1, 8, final_re)
+    util.write_result("../Testcase/test_case_api.xlsx", "interface", case_id + 1, 10, final_re)

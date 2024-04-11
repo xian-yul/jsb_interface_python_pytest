@@ -4,7 +4,7 @@
 # @Software     : PyCharm
 import requests
 
-from Utils import util
+from common import util
 
 url = "http://192.168.101.24:8090/api/rawProvide"
 

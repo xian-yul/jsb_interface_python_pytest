@@ -8,10 +8,10 @@ import string
 import time
 
 import openpyxl
+import yaml
 
-from Utils import RSA
-from Utils.AES import PrpCrypt
-from Utils.RSA import rsa_encrypt
+from common.AES import PrpCrypt
+from common.RSA import rsa_encrypt
 
 key = '44x5b80r5ikacytg'
 iv = 'gzsek651g5g68bta'
@@ -60,12 +60,14 @@ def read_data(filename, sheetname):
     for i in range(2, max_raw + 1):
         dict1 = dict(
             case_id=sheet.cell(row=i, column=1).value,
-            case_interface=sheet.cell(row=i, column=2).value,
-            case_title=sheet.cell(row=i, column=3).value,
-            method=sheet.cell(row=i, column=4).value,
-            url=sheet.cell(row=i, column=5).value,
-            data=sheet.cell(row=i, column=6).value,
-            expect=sheet.cell(row=i, column=7).value,
+            case_port=sheet.cell(row=i, column=2).value,
+            case_interface=sheet.cell(row=i, column=3).value,
+            case_title=sheet.cell(row=i, column=4).value,
+            method=sheet.cell(row=i, column=5).value,
+            url=sheet.cell(row=i, column=6).value,
+            data=sheet.cell(row=i, column=7).value,
+            header=sheet.cell(row=i, column=8).value,
+            expect=sheet.cell(row=i, column=9).value,
         )
         case_list.append(dict1)
     return case_list
@@ -90,3 +92,13 @@ def write_result(filename, sheetname, row, column, final_result):
     sheet = wb[sheetname]
     sheet.cell(row=row, column=column).value = final_result
     wb.save(filename)
+
+
+# 获取登录的token 根据yaml地址写入token
+def save_token(r):
+    yamlpath = 'E:/demo/jsb_interface_python_pytest/yaml/Token.yaml'
+    tokenValue = {
+        'token': r.json()['result']['rcToken']
+    }
+    with open(yamlpath, "w", encoding="utf-8") as f:
+        yaml.dump(tokenValue, f, Dumper=yaml.Dumper)
