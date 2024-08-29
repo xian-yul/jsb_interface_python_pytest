@@ -1,18 +1,14 @@
 import requests
 
-from common import util
-
-# url = "http://192.168.101.24:8090/api/couponCenter/coupon"
-# url = "http://192.168.101.24:8050/api/auditBasisIndemnity"
+# 基差合约更改
 url = "http://192.168.101.24:9001/test/basis/contractValid/maturity"
 # url = "https://demo.jinsubao.cn/api/test/basis/contractValid/maturity"
-params = {'contractNumber': 'l2405', 'contractValid': '1', 'time': '1716566399000'}
-# header信息
+params = {'contractNumber': 'ru2501', 'contractValid': '2', 'time': '1721871923000', 'oldContractNumber': 'ru2409'}
+
 header = {
     "Content-Type": "application/x-www-form-urlencoded",
 }
 
-# 使用requests发送get请求
 r = requests.post(url=url, headers=header, params=params)
 print("请求url ： " + r.url)
 print("请求结果 : " + r.text)

@@ -1,0 +1,27 @@
+-
+  title: 原料市场列表
+  method: get
+  port: 买家
+  url: http://192.168.101.24:8090/api/rawProvide
+  data:
+      pageNum: 1
+      pageSize: 10
+  header:
+      sign: None
+      Content-Type: application/json
+  expected:
+      code: 200
+      message: 操作成功
+-
+  title: 发送登录验证码
+  method: post
+  port: 卖家
+  url: http://192.168.101.24:8070/api/sendSms
+  data:
+      phone: 13500135003
+  header:
+      sign: None
+      Content-Type: application/json
+  expected:
+      code: 200
+      message: 操作成功

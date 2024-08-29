@@ -3,9 +3,14 @@
 # @File         : util.py
 # @Software     : PyCharm
 import hashlib
+import json
 import random
 import string
 import time
+
+import requests
+
+from common import util
 
 import openpyxl
 import yaml
@@ -102,3 +107,47 @@ def save_token(r):
     }
     with open(yamlpath, "w", encoding="utf-8") as f:
         yaml.dump(tokenValue, f, Dumper=yaml.Dumper)
+
+
+# 根据yaml读取指定数据
+def test_sign(self):
+    with open(self.file, encoding='utf-8') as fobj:
+        content = fobj.read()
+    # 使用 yaml.load()将yaml数据转换为list或dict
+    data = yaml.load(content, Loader=yaml.FullLoader)
+    # 使用for循环，依次读取测试用例
+    for i in range(len(data)):
+        # 从config.yaml中提取接口的参数
+        # 由于读取到的数据类型为list列表，所以只能用下标访问
+        model = data[i]['model']
+        title = data[i]['title']
+        url = data[i]['url']
+        method = data[i]['method']
+        datas = data[i]['data']
+        check = data[i]['check']
+        self.sign_test(model, title, url, method, datas, check)
+
+
+def request_method(method, data, header, url):
+    if method == 'post':
+        body_var = str(data).replace("'", '"')
+        var = util.generate_var(body_var)
+        sk = util.generate_sk()
+        sign_data = "sk={}&timestamp={}&var={}".format(str(sk), str(time), str(var))
+        if 'sign' in header and header['sign'] is None:
+            sign = util.MD5(sign_data)
+            header['sign'] = sign
+        data.update({'sk': str(sk)})
+        data.update({'var': str(var)})
+        # 将数据转换成JSON格式字符串
+        json_data = json.dumps(data)
+        # 使用requests发送post请求
+        r = requests.post(url=url, headers=header, data=json_data)
+    else:
+        str_data = util.dict_key_value(data, '=')
+        sign_data = str_data + 'timestamp=' + str(time)
+        if 'sign' in header and header['sign'] is None:
+            sign = util.MD5(sign_data)
+            header['sign'] = sign
+        r = requests.get(url=url, headers=header, params=data)
+    return r
