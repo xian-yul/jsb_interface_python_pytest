@@ -10,7 +10,7 @@ log = Log()
 getToken = Element('Token')
 
 # 引入测试用例 excel地址
-cases = util.read_data('../Testcase/test_case_trading_hall.xlsx', 'interface')
+cases = util.read_data('../testdata/test_case_trading_hall.xlsx', 'interface')
 for case in cases:
     time = util.timestamp()
     case_id = case.get('case_id')
@@ -45,4 +45,4 @@ for case in cases:
         log.error('第{}条用例测试不通过'.format(case_id))
         final_re = "failed"
     log.info('-------------------------------------')
-    util.write_result("../Testcase/test_case_trading_hall.xlsx", "interface", case_id + 1, 10, final_re)
+    util.write_result("../testdata/test_case_trading_hall.xlsx", "interface", case_id + 1, 10, final_re)

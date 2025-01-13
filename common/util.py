@@ -55,7 +55,6 @@ def generate_sk():
     rsa_data = key + ":" + str(iv)
     return rsa_encrypt(rsa_data)
 
-
 # 根据指定file及sheet读取excel内容
 def read_data(filename, sheetname):
     wb = openpyxl.load_workbook(filename)  # 加载工作簿

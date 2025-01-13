@@ -20,7 +20,10 @@ log = Log()
 class TestInterface:
     def test_interface():
         # 引入测试用例 excel地址
-        cases = util.read_data('../Testcase/test_case_api.xlsx', 'interface')
+        excel_path = '../testdata/test_case_api.xlsx'
+        # 引入测试用例 excel的表名
+        excel_outside = 'interface'
+        cases = util.read_data(excel_path, excel_outside)
         for case in cases:
             time = util.timestamp()
             case_id = case.get('case_id')
@@ -74,14 +77,14 @@ class TestInterface:
                         real_msg))
             with allure.step('接口实际返回接口与预期接口对比'):
                 if real_msg == expect_msg:
-                    log.info('第{}条用例测试通过'.format(case_id))
+                    log.info('\n第{}条用例测试通过'.format(case_id))
                     final_re = "passed"
                 else:
-                    log.info('第{}条用例测试不通过'.format(case_id))
+                    log.info('\n第{}条用例测试不通过'.format(case_id))
                     final_re = "failed"
             log.info('-------------------------------------')
-            util.write_result("../Testcase/test_case_api.xlsx", "interface", case_id + 1, 10, final_re)
+            util.write_result("../testdata/test_case_api.xlsx", "interface", case_id + 1, 10, final_re)
 
 
 if __name__ == '__main__':
-    pytest.main(['tests/test_interface.py'])
+    pytest.main(['test_interface.py', '-s'])
