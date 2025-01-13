@@ -1,13 +1,12 @@
 # @Time         : 2024/02/21 上午 10:26
 # @Author       : ljx
-# @File         : interface_requests.py
+# @File         : trading_hall_case.py
 # @Software     : PyCharm
-import json
-import requests
-
 from common import util
+from common.log import Log
 from common.readelement import Element
 
+log = Log()
 getToken = Element('Token')
 
 # 引入测试用例 excel地址
@@ -30,7 +29,7 @@ for case in cases:
     # 以text格式打印出参
     response = r.json()
     real_msg = response.get('message')
-    print(
+    log.info(
         "用例ID:{}\n请求方式:{}\n请求标题:{}\n请求端口:{}\n请求url:{}\n请求结果:{}\n预期结果:{}\n实际结果:{} ".format(
             case_id, method,
             case_title,
@@ -40,10 +39,10 @@ for case in cases:
             expect_msg,
             real_msg))
     if real_msg == expect_msg:
-        print('第{}条用例测试通过'.format(case_id))
+        log.info('第{}条用例测试通过'.format(case_id))
         final_re = "passed"
     else:
-        print('第{}条用例测试不通过'.format(case_id))
+        log.error('第{}条用例测试不通过'.format(case_id))
         final_re = "failed"
-    print('-------------------------------------')
+    log.info('-------------------------------------')
     util.write_result("../Testcase/test_case_trading_hall.xlsx", "interface", case_id + 1, 10, final_re)

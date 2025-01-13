@@ -151,3 +151,4 @@ def request_method(method, data, header, url):
             header['sign'] = sign
         r = requests.get(url=url, headers=header, params=data)
     return r
+
