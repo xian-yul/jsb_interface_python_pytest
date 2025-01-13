@@ -16,7 +16,7 @@ log = Log()
 
 
 class TestInterface:
-    def test_interface(self):
+    def test_interface():
         # 引入测试用例 excel地址
         cases = util.read_data('../Testcase/test_case_api.xlsx', 'interface')
         for case in cases:
