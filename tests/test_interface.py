@@ -84,4 +84,4 @@ class TestInterface:
 
 
 if __name__ == '__main__':
-    pytest.main(['resources/test_interface.py'])
+    pytest.main(['tests/test_interface.py'])
