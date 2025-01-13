@@ -1,8 +1,10 @@
 # @Time         : 2024/02/21 上午 10:26
 # @Author       : ljx
-# @File         : interface_requests.py
+# @File         : test_interface.py
 # @Software     : PyCharm
 import json
+
+import pytest
 import requests
 import allure
 from common import util, log
@@ -79,3 +81,7 @@ class TestInterface:
                     final_re = "failed"
             log.info('-------------------------------------')
             util.write_result("../Testcase/test_case_api.xlsx", "interface", case_id + 1, 10, final_re)
+
+
+if __name__ == '__main__':
+    pytest.main(['resources/test_interface.py'])
