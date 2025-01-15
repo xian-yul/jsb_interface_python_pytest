@@ -10,9 +10,7 @@ import string
 import sys
 import time
 
-
 import requests
-
 
 import openpyxl
 import yaml
@@ -201,14 +199,13 @@ def switch_excel_case(value):
     return switcher.get(value, 'wrong value')
 
 
-def post_request_encryption(data, header):
+def post_request_encryption(data, header, time):
     body_var = str(data).replace("'", '"')
     var = generate_var(body_var)
     sk = generate_sk()
     sign_data = "sk={}&timestamp={}&var={}".format(str(sk), str(time), str(var))
-    if 'sign' in header and header['sign'] is None:
-        sign = MD5(sign_data)
-        header['sign'] = sign
+    sign = MD5(sign_data)
+    header['sign'] = sign
     data.update({'sk': str(sk)})
     data.update({'var': str(var)})
     request_dict = {}
@@ -217,9 +214,29 @@ def post_request_encryption(data, header):
     return request_dict
 
 
-def get_request_encryption(data, header):
+def get_request_encryption(data, header, time):
     str_data = dict_key_value(data, '=')
     sign_data = str_data + 'timestamp=' + str(time)
-    if 'sign' in header and header['sign'] is None:
-        sign = MD5(sign_data)
-        header['sign'] = sign
+    sign = MD5(sign_data)
+    header['sign'] = sign
+    return header
+
+
+def read_yaml(yaml_file_path):
+    """
+    读取 YAML 文件并返回解析后的数据。
+    :param yaml_file_path: YAML 文件的路径
+    :return: 解析后的 YAML 数据
+    :raises: IOError, yaml.YAMLError
+    """
+    try:
+        with open(yaml_file_path, "r", encoding="utf-8") as f:
+            value = yaml.safe_load(stream=f)
+    except IOError:
+        # 处理文件读取错误。
+        raise
+    except yaml.YAMLError:
+        # 处理 YAML 解析错误。
+        raise
+
+    return value

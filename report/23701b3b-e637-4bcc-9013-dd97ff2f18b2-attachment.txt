@@ -1,0 +1,13 @@
+[35mDEBUG   [0m urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): v3.www.jinsubao.test:80
+[35mDEBUG   [0m urllib3.connectionpool:connectionpool.py:544 http://v3.www.jinsubao.test:80 "GET /api/tradeFloor/statistics?timestamp=1736933244144 HTTP/1.1" 200 83
+[32mINFO    [0m root:log.py:44 
+请求方式:get
+请求标题:获取统计数据
+
+请求url:http://v3.www.jinsubao.test/api/tradeFloor/statistics?timestamp=1736933244144
+请求结果:{"result":{"productCount":465837,"onlineUserCount":1750},"message":"Ok","code":200}
+预期结果:Ok
+实际结果:Ok 
+[32mINFO    [0m root:log.py:44 
+标题为 获取统计数据 用例测试通过
+[32mINFO    [0m root:log.py:44 -------------------------------------

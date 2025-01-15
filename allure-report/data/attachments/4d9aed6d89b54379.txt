@@ -1,0 +1,13 @@
+[35mDEBUG   [0m urllib3.connectionpool:connectionpool.py:241 Starting new HTTP connection (1): v3.www.jinsubao.test:80
+[35mDEBUG   [0m urllib3.connectionpool:connectionpool.py:544 http://v3.www.jinsubao.test:80 "GET /api/couponCenter?timestamp=1736933244127&sourceType=1&couponType=1&pageSize=10&pageNum=1 HTTP/1.1" 400 35
+[32mINFO    [0m root:log.py:44 
+请求方式:get
+请求标题:领券中心
+
+请求url:http://v3.www.jinsubao.test/api/couponCenter?timestamp=1736933244127&sourceType=1&couponType=1&pageSize=10&pageNum=1
+请求结果:{"message":"Sign Error","code":400}
+预期结果:Ok
+实际结果:Sign Error 
+[32mINFO    [0m root:log.py:44 
+标题为 领券中心 用例测试不通过
+[32mINFO    [0m root:log.py:44 -------------------------------------
