@@ -6,7 +6,7 @@ import json
 import time
 
 import requests
-from common import util
+from utils import util
 
 # 值需放入sign进行md5加密 定义变量存储时间 保证时间一致
 

@@ -2,9 +2,9 @@
 # @Author       : ljx
 # @File         : trading_hall_case.py
 # @Software     : PyCharm
-from common import util
-from common.log import Log
-from common.readelement import Element
+from utils import util
+from utils.log import Log
+from utils.readelement import Element
 
 log = Log()
 getToken = Element('Token')

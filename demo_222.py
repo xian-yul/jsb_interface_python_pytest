@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from common import util
+from utils import util
 
 # 推送
 # url = "http://192.168.101.24:9001/test/basis/push?timestamp=" + str(util.timestamp())

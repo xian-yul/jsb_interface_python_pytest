@@ -1,6 +1,6 @@
 import requests
 
-from common import util
+from utils import util
 
 url = 'http://v3.www.jinsubao.test/api/tradeFloor/statistics'
 # url = "http://192.168.101.24:8090/api/couponCenter/coupon"

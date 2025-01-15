@@ -18,9 +18,9 @@ TEST_OPERA_PORT = '8050'
 TEST_SELLER_PORT = '8070'
 
 # excel地址
-USER_EXCEL = '../testdata/test_user_case_api.xlsx'
-SELLER_EXCEL = '../testdata/test_seller_case_api.xlsx'
-OPERA_EXCEL = '../testdata/test_opera_case_api.xlsx'
+USER_EXCEL = 'E:/BaiduNetdiskDownload/demo/jsb_interface_python_pytest/testdata/test_user_case_api.xlsx'
+SELLER_EXCEL = 'E:/BaiduNetdiskDownload/demo/jsb_interface_python_pytest/testdata/test_seller_case_api.xlsx'
+OPERA_EXCEL = 'E:/BaiduNetdiskDownload/demo/jsb_interface_python_pytest/testdata/test_opera_case_api.xlsx'
 
 # excel表名
 EXCEL_OUTSIDE = 'interface'

@@ -4,7 +4,7 @@ import os
 
 from selenium.webdriver.common.by import By
 
-from common.times import dt_strftime
+from utils.times import dt_strftime
 
 
 class ConfigManager(object):

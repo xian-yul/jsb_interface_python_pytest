@@ -4,20 +4,22 @@
 # @Software     : PyCharm
 import hashlib
 import json
+import os
 import random
 import string
+import sys
 import time
+
 
 import requests
 
-from common import util
 
 import openpyxl
 import yaml
 from config.allParams import TEST_OPERA_URL, TEST_USER_URL, TEST_SELLER_URL, PREVIEW_USER_URL, PREVIEW_OPERA_URL, \
     PREVIEW_SELLER_URL, TEST_SELLER_PORT, TEST_OPERA_PORT, USER_EXCEL, SELLER_EXCEL, OPERA_EXCEL
-from common.AES import PrpCrypt
-from common.RSA import rsa_encrypt
+from utils.AES import PrpCrypt
+from utils.RSA import rsa_encrypt
 
 key = '44x5b80r5ikacytg'
 iv = 'gzsek651g5g68bta'
@@ -132,11 +134,11 @@ def test_sign(self):
 def request_method(method, data, header, url):
     if method == 'post':
         body_var = str(data).replace("'", '"')
-        var = util.generate_var(body_var)
-        sk = util.generate_sk()
+        var = generate_var(body_var)
+        sk = generate_sk()
         sign_data = "sk={}&timestamp={}&var={}".format(str(sk), str(time), str(var))
         if 'sign' in header and header['sign'] is None:
-            sign = util.MD5(sign_data)
+            sign = MD5(sign_data)
             header['sign'] = sign
         data.update({'sk': str(sk)})
         data.update({'var': str(var)})
@@ -145,10 +147,10 @@ def request_method(method, data, header, url):
         # 使用requests发送post请求
         r = requests.post(url=url, headers=header, data=json_data)
     else:
-        str_data = util.dict_key_value(data, '=')
+        str_data = dict_key_value(data, '=')
         sign_data = str_data + 'timestamp=' + str(time)
         if 'sign' in header and header['sign'] is None:
-            sign = util.MD5(sign_data)
+            sign = MD5(sign_data)
             header['sign'] = sign
         r = requests.get(url=url, headers=header, params=data)
     return r
@@ -201,11 +203,11 @@ def switch_excel_case(value):
 
 def post_request_encryption(data, header):
     body_var = str(data).replace("'", '"')
-    var = util.generate_var(body_var)
-    sk = util.generate_sk()
+    var = generate_var(body_var)
+    sk = generate_sk()
     sign_data = "sk={}&timestamp={}&var={}".format(str(sk), str(time), str(var))
     if 'sign' in header and header['sign'] is None:
-        sign = util.MD5(sign_data)
+        sign = MD5(sign_data)
         header['sign'] = sign
     data.update({'sk': str(sk)})
     data.update({'var': str(var)})
@@ -216,8 +218,8 @@ def post_request_encryption(data, header):
 
 
 def get_request_encryption(data, header):
-    str_data = util.dict_key_value(data, '=')
+    str_data = dict_key_value(data, '=')
     sign_data = str_data + 'timestamp=' + str(time)
     if 'sign' in header and header['sign'] is None:
-        sign = util.MD5(sign_data)
+        sign = MD5(sign_data)
         header['sign'] = sign

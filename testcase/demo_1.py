@@ -1,5 +1,5 @@
 # 引入测试用例 excel地址
-from common import util
+from utils import util
 
 excel_path = '../testdata/raw.xlsx'
 # 引入测试用例 excel的表名
