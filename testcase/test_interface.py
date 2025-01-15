@@ -20,7 +20,9 @@ log = Log()
 
 # class TestInterface:
 def test_interface():
-    path_dict = setting_select()
+    setting = '24'
+    port = '买家'
+    path_dict = setting_select(setting, port)
     cases = util.read_data(path_dict['excel'], EXCEL_OUTSIDE)
     for case in cases:
         time = util.timestamp()
@@ -78,4 +80,4 @@ def test_interface():
 
 
 if __name__ == '__main__':
-    pytest.main(['test_interface.py', '-s'])
+    pytest.main(["--html=./report/report.html", "test_interface.py"], '-s')

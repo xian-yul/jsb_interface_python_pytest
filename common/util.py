@@ -154,9 +154,7 @@ def request_method(method, data, header, url):
     return r
 
 
-def setting_select():
-    setting = input('输入环境：\n')
-    port = input('输入所进行的端口：\n')
+def setting_select(setting, port):
     path_dict = {}
     url = switch_case(setting, port)
     excel_path = switch_excel_case(port)
