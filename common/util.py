@@ -14,7 +14,8 @@ from common import util
 
 import openpyxl
 import yaml
-
+from config.allParams import TEST_OPERA_URL, TEST_USER_URL, TEST_SELLER_URL, PREVIEW_USER_URL, PREVIEW_OPERA_URL, \
+    PREVIEW_SELLER_URL, TEST_SELLER_PORT, TEST_OPERA_PORT, USER_EXCEL, SELLER_EXCEL, OPERA_EXCEL
 from common.AES import PrpCrypt
 from common.RSA import rsa_encrypt
 
@@ -55,6 +56,7 @@ def generate_sk():
     rsa_data = key + ":" + str(iv)
     return rsa_encrypt(rsa_data)
 
+
 # 根据指定file及sheet读取excel内容
 def read_data(filename, sheetname):
     wb = openpyxl.load_workbook(filename)  # 加载工作簿
@@ -68,10 +70,10 @@ def read_data(filename, sheetname):
             case_interface=sheet.cell(row=i, column=3).value,
             case_title=sheet.cell(row=i, column=4).value,
             method=sheet.cell(row=i, column=5).value,
-            url=sheet.cell(row=i, column=6).value,
-            data=sheet.cell(row=i, column=7).value,
-            header=sheet.cell(row=i, column=8).value,
-            expect=sheet.cell(row=i, column=9).value,
+            # url=sheet.cell(row=i, column=6).value,
+            data=sheet.cell(row=i, column=6).value,
+            header=sheet.cell(row=i, column=7).value,
+            expect=sheet.cell(row=i, column=8).value,
         )
         case_list.append(dict1)
     return case_list
@@ -151,3 +153,73 @@ def request_method(method, data, header, url):
         r = requests.get(url=url, headers=header, params=data)
     return r
 
+
+def setting_select():
+    setting = input('输入环境：\n')
+    port = input('输入所进行的端口：\n')
+    path_dict = {}
+    url = switch_case(setting, port)
+    excel_path = switch_excel_case(port)
+    path_dict['url'] = url
+    path_dict['excel'] = excel_path
+    return path_dict
+
+
+def switch_case(setting, port):
+    url = ''
+    if setting == '24':
+        url = switch_test_case(port)
+    else:
+        url = switch_preview_case(port)
+    return url
+
+
+def switch_test_case(value):
+    switcher = {
+        '买家': TEST_USER_URL,
+        '卖家': TEST_SELLER_URL + TEST_SELLER_PORT,
+        '运营': TEST_OPERA_URL + TEST_OPERA_PORT,
+    }
+    return switcher.get(value, 'wrong value')
+
+
+def switch_preview_case(value):
+    switcher = {
+        '买家': PREVIEW_USER_URL,
+        '卖家': PREVIEW_SELLER_URL,
+        '运营': PREVIEW_OPERA_URL,
+    }
+    return switcher.get(value, 'wrong value')
+
+
+def switch_excel_case(value):
+    switcher = {
+        '买家': USER_EXCEL,
+        '卖家': SELLER_EXCEL,
+        '运营': OPERA_EXCEL,
+    }
+    return switcher.get(value, 'wrong value')
+
+
+def post_request_encryption(data, header):
+    body_var = str(data).replace("'", '"')
+    var = util.generate_var(body_var)
+    sk = util.generate_sk()
+    sign_data = "sk={}&timestamp={}&var={}".format(str(sk), str(time), str(var))
+    if 'sign' in header and header['sign'] is None:
+        sign = util.MD5(sign_data)
+        header['sign'] = sign
+    data.update({'sk': str(sk)})
+    data.update({'var': str(var)})
+    request_dict = {}
+    request_dict['data'] = data
+    request_dict['header'] = header
+    return request_dict
+
+
+def get_request_encryption(data, header):
+    str_data = util.dict_key_value(data, '=')
+    sign_data = str_data + 'timestamp=' + str(time)
+    if 'sign' in header and header['sign'] is None:
+        sign = util.MD5(sign_data)
+        header['sign'] = sign

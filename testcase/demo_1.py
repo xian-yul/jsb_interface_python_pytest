@@ -1,26 +1,15 @@
-# @Time         : 2024/02/21 上午 10:26
-# @Author       : ljx
-# @File         : test_interface.py
-# @Software     : PyCharm
-import json
+# 引入测试用例 excel地址
+from common import util
 
-import pytest
-import requests
-import allure
-from common import util, log
-from common.log import Log
-from common.readelement import Element
-from config.allParams import TEST_OPERA_URL
+excel_path = '../testdata/raw.xlsx'
+# 引入测试用例 excel的表名
+excel_outside = 'Sheet1'
+raw_list = []
+raws = util.read_data(excel_path, excel_outside)
+for raw in raws:
+    raw_name = raw.get('names')
+    print(raw_name)
+    raw_list.append(raw_name)
 
-getToken = Element('Token')
-setting = '24'
-log = Log()
-
-
-class TestInterface:
-    def test_interface(self):
-        pass
-
-
-if __name__ == '__main__':
-    pytest.main(['test_interface.py', '-s'])
+print(raw_list)
+print(len(raw_list))
