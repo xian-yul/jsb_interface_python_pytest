@@ -24,3 +24,8 @@ OPERA_EXCEL = 'E:/BaiduNetdiskDownload/demo/jsb_interface_python_pytest/testdata
 
 # excel表名
 EXCEL_OUTSIDE = 'interface'
+
+# yaml地址
+USER_YAML = 'E:/BaiduNetdiskDownload/demo/jsb_interface_python_pytest/testdata/test_user_case.yaml'
+SELLER_YAML = 'E:/BaiduNetdiskDownload/demo/jsb_interface_python_pytest/testdata/test_seller_case.yaml'
+OPERA_YAML = 'E:/BaiduNetdiskDownload/demo/jsb_interface_python_pytest/testdata/test_opera_case.yaml'
